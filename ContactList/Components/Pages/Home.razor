@@ -1,0 +1,58 @@
+﻿@page "/"
+@using ContactList.Services
+@inject NavigationManager Navigation
+@inject UserService UserService
+
+<style>
+    .btn-fixo {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #76ABAE;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 24px;
+    }
+</style>
+
+<PageTitle>Contatos</PageTitle>
+
+<div class="w-100 d-flex flex-column justify-content-center align-items-start">
+        @foreach (var user in _users)
+        {
+            <div @onclick="@(() => OpenDetails(@user.Id))" class="ps-3 pt-3 d-flex flex-column align-items-start w-100 mb-4" style="background-color: #222831; border-radius: 6px">
+                <h4 class="mb-3" style="color: white">@user.Name</h4>
+                <p style="color: white">
+                    <i class="fa-regular fa-envelope"></i> @user.Email
+                </p>
+                <p style="color: white"><i class="fa-solid fa-phone"></i> @user.Phone</p>
+            </div>
+        }
+</div>
+
+<button class="btn-fixo" @onclick="OpenRegisterPage">+</button>
+
+@code {
+    List<User> _users = [];
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _users = UserService.GetAll();
+            StateHasChanged();
+        }
+    }
+
+    void OpenRegisterPage()
+    {
+        Navigation.NavigateTo("register");
+    }
+
+    void OpenDetails(int id)
+    {
+        Navigation.NavigateTo($"Details/{id}");
+    }
+}

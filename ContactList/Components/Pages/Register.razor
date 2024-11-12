@@ -1,0 +1,43 @@
+﻿@page "/register"
+@using ContactList.Services
+@using User = ContactList.Models.User
+@inject NavigationManager Navigation
+@inject UserService UserService
+
+<div class="w-100 d-flex flex-row justify-content-start align-items-center">
+    <i class="fa-solid fa-backward me-3" style="color: white" @onclick="NavToList"></i>
+    <h3 class="text-white mt-1">Novo contato</h3>
+</div>
+<div class="w-100 d-flex flex-column justify-content-center align-items-center mt-5">
+    <div class="d-flex flex-column align-items-start w-100 mb-4">
+        <label class="fs-6 text-white fw-bold mb-2">Nome</label>
+        <InputText @bind-Value="@_user.Name" type="text" style="color: white; background-color: #424955FF; border-width: thin; border-color: white; border-radius: 6px" class="ps-2 py-2 w-100 fs-4"/>
+    </div>
+    
+    <div class="d-flex flex-column align-items-start w-100 mb-4">
+        <label class="fs-6 text-white fw-bold mb-2">Email</label>
+        <InputText @bind-Value="@_user.Email" type="email" style="color: white; background-color: #424955FF; border-width: thin; border-color: white; border-radius: 6px" class="ps-2 py-2 w-100 fs-4"/>
+    </div>
+    
+    <div class="d-flex flex-column align-items-start w-100 mb-5">
+        <label class="fs-6 text-white fw-bold mb-2">Telefone</label>
+        <InputText @bind-Value="@_user.Phone" type="tel" style="color: white; background-color: #424955FF; border-width: thin; border-color: white; border-radius: 6px" class="ps-2 py-2 w-100 fs-4"/>
+    </div>
+    
+    <button class="w-100 fs-5 p-2" style="border-radius: 6px; border-width: 0; background-color: #222831; color: white" @onclick="Submit">Salvar</button>
+</div>
+
+@code {
+    User _user =  new User();
+    
+    void Submit()
+    {
+        UserService.Add(_user);
+        NavToList();
+    }
+    
+    void NavToList()
+    {
+        Navigation.NavigateTo("");
+    }
+}
